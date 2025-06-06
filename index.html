@@ -1,0 +1,61 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Color Selector</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: url('back.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random Color Selector</h1>
+  <label for="playerCount">Select Player Count:</label>
+  <select id="playerCount">
+    <option value="2">2 Players</option>
+    <option value="3">3 Players</option>
+    <option value="4">4 Players</option>
+    <option value="5">5 Players</option>
+    <option value="6">6 Players</option>
+  </select>
+  <br>
+  <button onclick="generateColors()">Generate Colors</button>
+  <div id="output"></div>  <script>
+    const colorPool = ["Diamond", "Ruby", "Sapphire", "Emerald", "Onyx", "Amethyst", "Amber"];
+
+    const playerColorMap = {
+      2: 2,
+      3: 3,
+      4: 3,
+      5: 4,
+      6: 5
+    };
+
+    function generateColors() {
+      const playerCount = parseInt(document.getElementById("playerCount").value);
+      const colorCount = playerColorMap[playerCount];
+
+      const shuffled = colorPool.sort(() => 0.5 - Math.random());
+      const selectedColors = shuffled.slice(0, colorCount);
+
+      document.getElementById("output").textContent = "Selected Colors: " + selectedColors.join(", ");
+    }
+  </script></body>
+</html>
