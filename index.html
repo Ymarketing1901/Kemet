@@ -1,5 +1,6 @@
 
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,16 +14,64 @@
       background-size: cover;
       color: white;
     }
+
     select, button {
-      padding: 10px;
+      padding: 10px 20px;
       font-size: 16px;
       margin: 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
     }
+
+    button {
+      background-color: #ffffffcc;
+      color: #222;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ffcc00cc;
+    }
+
+    select {
+      background-color: #ffffffcc;
+      color: #222;
+    }
+
     #output {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
+
+    .color-card {
+      min-width: 120px;
+      padding: 15px;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px black;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .tile-name {
+      font-size: 14px;
+      font-weight: normal;
+      margin-top: 5px;
+      display: block;
+    }
+
+    /* Theme color backgrounds */
+    .Diamond { background: linear-gradient(135deg, #aeefff, #c7f2ff); color: #003344; }
+    .Ruby { background: linear-gradient(135deg, #ff3b3b, #ff8a8a); }
+    .Sapphire { background: linear-gradient(135deg, #475aff, #8aaeff); }
+    .Emerald { background: linear-gradient(135deg, #0fc67f, #a0f0c1); }
+    .Onyx { background: linear-gradient(135deg, #222, #555); }
+    .Amethyst { background: linear-gradient(135deg, #a855f7, #c084fc); }
+    .Amber { background: linear-gradient(135deg, #ffbf00, #ffe08a); color: #443300; }
   </style>
 </head>
 <body>
@@ -37,7 +86,9 @@
   </select>
   <br>
   <button onclick="generateColors()">Generate Colors</button>
-  <div id="output"></div>  <script>
+  <div id="output"></div>
+
+  <script>
     const colorPool = ["Diamond", "Ruby", "Sapphire", "Emerald", "Onyx", "Amethyst", "Amber"];
 
     const playerColorMap = {
@@ -48,14 +99,36 @@
       6: 5
     };
 
+    const tileSuggestions = {
+      Diamond: "Teleport",
+      Ruby: "Double Attack",
+      Sapphire: "Pharaoh’s Blessing",
+      Emerald: "Divine Shield",
+      Onyx: "Anubis Wrath",
+      Amethyst: "Spontaneous Ceremony",
+      Amber: "Speed Upgrade"
+    };
+
     function generateColors() {
       const playerCount = parseInt(document.getElementById("playerCount").value);
       const colorCount = playerColorMap[playerCount];
 
-      const shuffled = colorPool.sort(() => 0.5 - Math.random());
+      const shuffled = [...colorPool].sort(() => 0.5 - Math.random());
       const selectedColors = shuffled.slice(0, colorCount);
 
-      document.getElementById("output").textContent = "Selected Colors: " + selectedColors.join(", ");
+      const output = document.getElementById("output");
+      output.innerHTML = ""; // Clear old results
+
+      selectedColors.forEach(color => {
+        const randNum = Math.floor(Math.random() * 3) + 1;
+        const suggestion = tileSuggestions[color] || "Unknown";
+
+        const card = document.createElement("div");
+        card.className = `color-card ${color}`;
+        card.innerHTML = `${color} (${randNum})<span class="tile-name">[${suggestion}]</span>`;
+        output.appendChild(card);
+      });
     }
-  </script></body>
-</html>
+  </script>
+</body>
+</html> 
