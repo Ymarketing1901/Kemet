@@ -99,14 +99,14 @@
       6: 5
     };
 
-    const tileSuggestions = {
-      Diamond: "Teleport",
-      Ruby: "Double Attack",
-      Sapphire: "Pharaoh’s Blessing",
-      Emerald: "Divine Shield",
-      Onyx: "Anubis Wrath",
-      Amethyst: "Spontaneous Ceremony",
-      Amber: "Speed Upgrade"
+    const dynamicTileSuggestions = {
+      Diamond: ["Strategic Hold", "Night Ceremony", "Horde"],
+      Ruby: ["Omniscience", "Sacred Bull", "Tactical Adaptation"],
+      Sapphire: ["Perfect Architecture", "Sandworm", "Urban Combat"],
+      Emerald: ["Macabre Aspiration", "Dark Knowledge", "Unilateral Choice"],
+      Onyx: ["Divine Support", "Tactical Reinforcement", "Shield of Onyx"],
+      Amethyst: ["Pitfall", "Baboon", "Shield of Amethyst"],
+      Amber: ["Supremacy", "Hippopotamus", "Architectural Adjustment"]
     };
 
     function generateColors() {
@@ -117,15 +117,15 @@
       const selectedColors = shuffled.slice(0, colorCount);
 
       const output = document.getElementById("output");
-      output.innerHTML = ""; // Clear old results
+      output.innerHTML = "";
 
       selectedColors.forEach(color => {
-        const randNum = Math.floor(Math.random() * 3) + 1;
-        const suggestion = tileSuggestions[color] || "Unknown";
+        const randNum = Math.floor(Math.random() * 3); // 0 to 2
+        const suggestion = (dynamicTileSuggestions[color] && dynamicTileSuggestions[color][randNum]) || "???";
 
         const card = document.createElement("div");
         card.className = `color-card ${color}`;
-        card.innerHTML = `${color} (${randNum})<span class="tile-name">[${suggestion}]</span>`;
+        card.innerHTML = `${color} (${randNum + 1})<span class="tile-name">[${suggestion}]</span>`;
         output.appendChild(card);
       });
     }
